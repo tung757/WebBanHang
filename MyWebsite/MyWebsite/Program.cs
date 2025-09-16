@@ -1,4 +1,11 @@
 
+using Microsoft.EntityFrameworkCore;
+using MyWebsite.Models.Entities;
+using MyWebsite.Repositories.Implements;
+using MyWebsite.Repositories.Interfaces;
+using MyWebsite.Services.Implements;
+using MyWebsite.Services.Interfaces;
+
 namespace MyWebsite
 {
     public class Program
@@ -13,6 +20,11 @@ namespace MyWebsite
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+
 
             var app = builder.Build();
 
@@ -26,6 +38,8 @@ namespace MyWebsite
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles();
 
 
             app.MapControllers();

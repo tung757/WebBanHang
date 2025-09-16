@@ -1,0 +1,52 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MyWebsite.Models.DTOs;
+using MyWebsite.Models.Requests;
+using MyWebsite.Services.Interfaces;
+using System.Reflection.Metadata.Ecma335;
+
+namespace MyWebsite.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductController : ControllerBase
+    {
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _productService.Getallproduct());
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Getbyidd(int id)
+        {
+            try
+            {
+                var result = await _productService.FindbyID(id);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Addproduct(SanPhamRequest product)
+        {
+            try
+            {
+                await _productService.AddProductService(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            return Ok(product);
+        }
+    }
+}
