@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
 using MyWebsite.Models.Entities;
 using MyWebsite.Repositories.Interfaces;
 
@@ -7,29 +8,39 @@ namespace MyWebsite.Repositories.Implements
 {
     public class DanhMucRepository : IDanhMucRepository
     {
-        public Task AddDM(Danhmuc danhmuc)
+        private readonly AppDbContext _context;
+        public DanhMucRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task AddDM(Danhmuc danhmuc)
+        {
+            await _context.Danhmucs.AddAsync(danhmuc);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteDM(int ID)
+        public async Task DeleteDM(int ID)
         {
-            throw new NotImplementedException();
+            var result = await _context.Danhmucs.SingleOrDefaultAsync(dm => dm.MaDm == ID);
+            _context.Remove(result);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Danhmuc>> getAllDM()
+        public async Task<List<Danhmuc>> getAllDM()
         {
-            throw new NotImplementedException();
+            return await _context.Danhmucs.ToListAsync();
         }
 
-        public Task<Danhmuc> getDMbyID(int ID)
+        public async Task<Danhmuc> getDMbyID(int ID)
         {
-            throw new NotImplementedException();
+            return await _context.Danhmucs.SingleOrDefaultAsync(dm=>dm.MaDm==ID);
         }
 
-        public Task UpdateDM(Danhmuc danhmuc)
+        public async Task UpdateDM(Danhmuc danhmuc)
         {
-            throw new NotImplementedException();
+            var result= await _context.Danhmucs.SingleOrDefaultAsync(dm=>dm.MaDm==danhmuc.MaDm);
+            result = danhmuc;
+            await _context.SaveChangesAsync();
         }
     }
 }
