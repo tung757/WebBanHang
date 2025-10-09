@@ -9,7 +9,8 @@ namespace MyWebsite.Services.Interfaces
         Task<List<SanPhamDTO>> Getallproduct();
         Task<SanPhamDTO> FindbyID(int id);
         Task AddProductService(SanPhamRequest product);
-        Task UpdateProductService(SanPhamRequest product);
+        Task UpdateProductService(int id, SanPhamRequest product);
         Task DeleteProductService(int id);
+        Task<List<SanPhamDTO>> GetProductByIdDanhMuc(int id);
     }
 }

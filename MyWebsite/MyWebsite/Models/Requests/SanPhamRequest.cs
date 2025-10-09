@@ -8,6 +8,6 @@
 
         public int? SoLuongBan { get; set; }
 
-        public List<PhanLoaiRequest>? PhanLoairequest { get; set; }
+        public List<PhanLoaiRequest>? Phanloairqs { get; set; }
     }
 }

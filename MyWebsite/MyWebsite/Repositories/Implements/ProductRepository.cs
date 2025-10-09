@@ -28,58 +28,44 @@ namespace MyWebsite.Repositories.Implements
         }
         public async Task UpdateProduct(Sanpham product)
         {
-            if (product == null) { throw new ArgumentNullException(nameof(product)); }
-            var result = await _context.Sanphams.Include(sp=>sp.Phanloaisps).SingleOrDefaultAsync(sp=>sp.MaSp==product.MaSp);
-            if (result == null) { throw new Exception("Sản phẩm không tồn tại"); }
-            result.TenSp=product.TenSp;
-            result.SoLuong=product.SoLuong;
-            var toRemove = result.Phanloaisps.Where(pl => !product.Phanloaisps.Any(p => p.IdPl == pl.IdPl)).ToList();
-            foreach (var pl in toRemove) { 
-                _context.Phanloaisps.Remove(pl);
-            }
-            foreach (var pl in result.Phanloaisps) {
-                if (pl.IdPl == 0)
-                {
-                    _context.Phanloaisps.Add(pl);
-                }
-                else
-                {
-                    var qrpl = await _context.Phanloaisps.SingleOrDefaultAsync(p=>p.IdPl == pl.IdPl);
-                    if (qrpl == null)
-                    {
-                        throw new Exception("Không thể tỉm thấy phân loại");
-                    }
-                    qrpl.TenPl= pl.TenPl;
-                    qrpl.GiaTien= pl.GiaTien;
-                }
-            }
             await _context.SaveChangesAsync();
         }
 
         public async Task<List<Sanpham>> GetallProduct()
         {
-            var result = await _context.Sanphams.Include(sp=> sp.Phanloaisps).ToListAsync();
+            var result = await _context.Sanphams.Include(sp => sp.Phanloaisps).ToListAsync();
             return result;
         }
 
         public async Task<Sanpham> GetbyID(int id)
         {
-            var result = await _context.Sanphams.Include(sp=> sp.Phanloaisps).SingleOrDefaultAsync(sp => sp.MaSp == id);
+            var result = await _context.Sanphams.Include(sp => sp.Phanloaisps).SingleOrDefaultAsync(sp => sp.MaSp == id);
             if (result == null)
             {
-                throw new Exception("Khong tim thay san pham nay");
+                throw new Exception("Khong tim thay san pham theo "+id);
             }
             return result;
         }
 
         public async Task DeleteProduct(int id)
         {
-            var result = await _context.Sanphams.Include(sp=> sp.Phanloaisps).SingleOrDefaultAsync();
-            if(result == null)
+            var result = await _context.Sanphams.Include(sp => sp.Phanloaisps).SingleOrDefaultAsync(sp=>sp.MaSp==id);
+            if (result == null)
             {
                 throw new Exception("Khong tim thay san pham de xoa");
             }
             _context.Sanphams.Remove(result);
+            _context.SaveChanges();
+        }
+
+        public void DetetePhanLoai(Phanloaisp phanloaisp)
+        {
+            _context.Phanloaisps.Remove(phanloaisp);
+        }
+
+        public async Task<List<Sanpham>> getSanPhambyDanhMuc(int id)
+        {
+            return await _context.Sanphams.Where(sp => sp.MaDm == id).Include(sp=>sp.Phanloaisps).ToListAsync();
         }
     }
 }

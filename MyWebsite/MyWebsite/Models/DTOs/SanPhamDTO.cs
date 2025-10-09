@@ -9,6 +9,6 @@
 
         public int? SoLuongBan { get; set; }
 
-        public List<PhanLoaiDTO> PhanLoais { get; set; }
+        public List<PhanLoaiDTO>? PhanLoais { get; set; }
     }
 }

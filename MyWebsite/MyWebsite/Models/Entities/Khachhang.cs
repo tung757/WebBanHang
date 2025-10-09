@@ -23,6 +23,8 @@ public partial class Khachhang
 
     public virtual ICollection<Danhgium> Danhgia { get; set; } = new List<Danhgium>();
 
+    public virtual ICollection<Donhang> Donhangs { get; set; } = new List<Donhang>();
+
     public virtual Giohang? Giohang { get; set; }
 
     public virtual ICollection<Lichsumuahang> Lichsumuahangs { get; set; } = new List<Lichsumuahang>();

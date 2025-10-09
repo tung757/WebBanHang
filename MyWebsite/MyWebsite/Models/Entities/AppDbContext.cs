@@ -19,6 +19,10 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Danhmuc> Danhmucs { get; set; }
 
+    public virtual DbSet<Donhang> Donhangs { get; set; }
+
+    public virtual DbSet<DonhangSanpham> DonhangSanphams { get; set; }
+
     public virtual DbSet<Giamgium> Giamgia { get; set; }
 
     public virtual DbSet<Giohang> Giohangs { get; set; }
@@ -75,6 +79,41 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.TenDm)
                 .HasMaxLength(45)
                 .HasColumnName("TenDM");
+        });
+
+        modelBuilder.Entity<Donhang>(entity =>
+        {
+            entity.HasKey(e => e.MaDh).HasName("PK__DONHANG__27258661C698D14B");
+
+            entity.ToTable("DONHANG");
+
+            entity.Property(e => e.MaDh).HasColumnName("MaDH");
+            entity.Property(e => e.MaKh).HasColumnName("MaKH");
+
+            entity.HasOne(d => d.MaKhNavigation).WithMany(p => p.Donhangs)
+                .HasForeignKey(d => d.MaKh)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk10");
+        });
+
+        modelBuilder.Entity<DonhangSanpham>(entity =>
+        {
+            entity.HasKey(e => new { e.MaDh, e.MaSp }).HasName("pk1");
+
+            entity.ToTable("DONHANG_SANPHAM");
+
+            entity.Property(e => e.MaDh).HasColumnName("MaDH");
+            entity.Property(e => e.MaSp).HasColumnName("MaSP");
+
+            entity.HasOne(d => d.MaDhNavigation).WithMany(p => p.DonhangSanphams)
+                .HasForeignKey(d => d.MaDh)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk11");
+
+            entity.HasOne(d => d.MaSpNavigation).WithMany(p => p.DonhangSanphams)
+                .HasForeignKey(d => d.MaSp)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk12");
         });
 
         modelBuilder.Entity<Giamgium>(entity =>
@@ -139,7 +178,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.IdImg).HasColumnName("ID_img");
             entity.Property(e => e.ImgAnh)
-                .HasMaxLength(30)
+                .HasMaxLength(255)
                 .HasColumnName("Img_anh");
             entity.Property(e => e.MaSp).HasColumnName("MaSP");
 
@@ -214,8 +253,9 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.MaSp).HasColumnName("MaSP");
             entity.Property(e => e.MaDm).HasColumnName("MaDM");
+            entity.Property(e => e.StatusSp).HasColumnName("Status_sp");
             entity.Property(e => e.TenSp)
-                .HasMaxLength(10)
+                .HasMaxLength(255)
                 .HasColumnName("TenSP");
 
             entity.HasOne(d => d.MaDmNavigation).WithMany(p => p.Sanphams)

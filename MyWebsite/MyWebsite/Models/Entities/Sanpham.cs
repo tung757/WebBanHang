@@ -15,7 +15,11 @@ public partial class Sanpham
 
     public int MaDm { get; set; }
 
+    public int? StatusSp { get; set; }
+
     public virtual ICollection<Danhgium> Danhgia { get; set; } = new List<Danhgium>();
+
+    public virtual ICollection<DonhangSanpham> DonhangSanphams { get; set; } = new List<DonhangSanpham>();
 
     public virtual ICollection<GiohangSanpham> GiohangSanphams { get; set; } = new List<GiohangSanpham>();
 

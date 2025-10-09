@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MyWebsite.Models.DTOs;
 using MyWebsite.Models.Requests;
@@ -47,6 +48,37 @@ namespace MyWebsite.Controllers
                 return BadRequest(new { message = ex.Message });
             }
             return Ok(product);
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(int id, SanPhamRequest product)
+        {
+            try
+            {
+                await _productService.UpdateProductService(id, product);
+            }
+            catch (Exception ex) { return BadRequest(new { message = ex.Message }); }
+            return Ok(product);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            try
+            {
+                await _productService.DeleteProductService(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            return Ok(id);
+        }
+
+        [HttpGet("byiddm{iddm}")]
+        public async Task<IActionResult> GetProductByDM(int iddm)
+        {
+            var result = await _productService.GetProductByIdDanhMuc(iddm);
+            return Ok(result);
         }
     }
 }

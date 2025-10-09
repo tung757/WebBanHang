@@ -9,5 +9,7 @@ namespace MyWebsite.Repositories.Interfaces
         Task AddProduct(Sanpham product);
         Task UpdateProduct(Sanpham product);
         Task DeleteProduct(int id);
+        void DetetePhanLoai(Phanloaisp phanloaisp);
+        Task<List<Sanpham>> getSanPhambyDanhMuc(int id);
     }
 }
