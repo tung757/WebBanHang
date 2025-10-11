@@ -26,6 +26,17 @@ namespace MyWebsite
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IDanhMucRepository, DanhMucRepository>();
             builder.Services.AddScoped<IDanhMucService, DanhMucService>();
+            builder.Services.AddScoped<IDonHangRepository,DonHangRepository>();
+            builder.Services.AddScoped<IDonHangItemRepository,DonHangItemRepository>();
+            builder.Services.AddScoped<IGiamGiaRepository,GiamGiaRepository>();
+            builder.Services.AddScoped<IGioHangItemRepository ,GioHangItemRepository>();
+            builder.Services.AddScoped<IHinhAnhRepository, HinhAnhRepository>();
+            builder.Services.AddScoped<IKhachHangRepository, KhachHangRepository>();
+            builder.Services.AddScoped<ILichSuRepository, LichSuRepository>();
+            builder.Services.AddScoped<IDanhGiaRepository, DanhGiaRepository>();
+            builder.Services.AddScoped<IGioHangRepository, GioHangRepository>();
+
+
 
 
 
