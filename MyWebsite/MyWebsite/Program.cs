@@ -14,6 +14,18 @@ namespace MyWebsite
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy =>
+                    {
+                        policy
+                            .AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -35,6 +47,9 @@ namespace MyWebsite
             builder.Services.AddScoped<ILichSuRepository, LichSuRepository>();
             builder.Services.AddScoped<IDanhGiaRepository, DanhGiaRepository>();
             builder.Services.AddScoped<IGioHangRepository, GioHangRepository>();
+            builder.Services.AddScoped<IDanhGiaService, DanhGiaService>();
+            builder.Services.AddScoped<IGioHangService, GioHangService>();
+            builder.Services.AddScoped<IKhachHangService, KhachHangService>();
 
 
 
@@ -48,6 +63,8 @@ namespace MyWebsite
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 

@@ -4,7 +4,7 @@ namespace MyWebsite.Repositories.Interfaces
 {
     public interface IGioHangRepository
     {
-        Task<Giohang> GetGiohangById(int id);
-
+        Task<Giohang> GetGiohangByIdKH(int id);
+        Task AddGioHang(int id);
     }
 }

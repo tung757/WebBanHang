@@ -18,9 +18,9 @@ namespace MyWebsite.Repositories.Implements
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<GiohangSanpham>> GetAllItemsGioHang()
+        public async Task<List<GiohangSanpham>> GetAllItemsGioHangByIDGioHang(int MaGh)
         {
-            var kq = await _context.GiohangSanphams.ToListAsync();
+            var kq = await _context.GiohangSanphams.Where(item=>item.IdGh==MaGh).ToListAsync();
             return kq;
         }
 
@@ -34,7 +34,7 @@ namespace MyWebsite.Repositories.Implements
         public async Task UpdateItemGioHang(GiohangSanpham ghsp)
         {
             var kq = await _context.GiohangSanphams.SingleOrDefaultAsync(gh => gh.IdGh == ghsp.IdGh && gh.MaSp == ghsp.MaSp);
-            kq = ghsp;
+            kq.SoLuong = ghsp.SoLuong;
             await _context.SaveChangesAsync();
         }
     }

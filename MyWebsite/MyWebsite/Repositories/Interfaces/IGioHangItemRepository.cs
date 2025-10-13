@@ -4,7 +4,7 @@ namespace MyWebsite.Repositories.Interfaces
 {
     public interface IGioHangItemRepository
     {
-        Task<List<GiohangSanpham>> GetAllItemsGioHang();
+        Task<List<GiohangSanpham>> GetAllItemsGioHangByIDGioHang(int MaGh);
         Task AddItemGioHang(GiohangSanpham ghsp);
         Task RemoveItemGioHang(int IdGh, int MaSp);
         Task UpdateItemGioHang(GiohangSanpham ghsp);

@@ -10,5 +10,6 @@
         public int? SoLuongBan { get; set; }
 
         public List<PhanLoaiDTO>? PhanLoais { get; set; }
+        public string? FirstImage {  get; set; }
     }
 }

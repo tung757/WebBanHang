@@ -17,8 +17,8 @@ namespace MyWebsite.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdProduct(int id)
         {
-            await _service.GetByIdProductService(id);
-            return Ok();
+            var kq=await _service.GetByIdProductService(id);
+            return Ok(kq);
         }
 
         [HttpPut]

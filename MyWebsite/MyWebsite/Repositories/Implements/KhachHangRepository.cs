@@ -1,4 +1,5 @@
-﻿using MyWebsite.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MyWebsite.Models.Entities;
 using MyWebsite.Repositories.Interfaces;
 
 namespace MyWebsite.Repositories.Implements
@@ -10,29 +11,49 @@ namespace MyWebsite.Repositories.Implements
             _context = context;
         }
 
-        public Task AddKhachHang(Khachhang khachhang)
+        public async Task AddKhachHang(Khachhang khachhang)
         {
-            throw new NotImplementedException();
+            await _context.Khachhangs.AddAsync(khachhang);
+            await _context.SaveChangesAsync();
+        }
+        
+        public async Task DeleteKhachHang(int id)
+        {
+            var qr = await _context.Khachhangs.SingleOrDefaultAsync(kh => kh.MaKh == id);
+            if (qr != null) {
+                _context.Khachhangs.Remove(qr);
+            }
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteKhachHang(int id)
+        public async Task<List<Khachhang>> GetAll()
         {
-            throw new NotImplementedException();
+            var qr = await _context.Khachhangs.ToListAsync();
+            return qr;
         }
 
-        public Task<List<Khachhang>> GetAll()
+        public async Task<Khachhang> GetById(int id)
         {
-            throw new NotImplementedException();
+            var qr=await _context.Khachhangs.SingleOrDefaultAsync(kh=>kh.MaKh == id);
+            return qr;
         }
 
-        public Task<Khachhang> GetById(int id)
+        public async Task<Khachhang> GetByTk(string tk, string mk)
         {
-            throw new NotImplementedException();
+            var qr=await _context.Khachhangs.SingleOrDefaultAsync(kh=>kh.Tk == tk&&kh.Mk==mk);
+            return qr;
         }
 
-        public Task UpdateKhachHang(Khachhang khachhang)
+        public async Task UpdateKhachHang(Khachhang khachhang)
         {
-            throw new NotImplementedException();
+            var qr = await _context.Khachhangs.SingleOrDefaultAsync(kh => kh.MaKh == khachhang.MaKh);
+            qr.HoTen= khachhang.HoTen;
+            qr.Email= khachhang.Email;
+            qr.ImgAvarta=khachhang.ImgAvarta;
+            qr.DiaChi=khachhang.DiaChi;
+            qr.Sdt=khachhang.Sdt;
+            qr.Mk=khachhang.Mk;
+            await _context.SaveChangesAsync();
         }
     }
 }

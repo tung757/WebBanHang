@@ -12,5 +12,6 @@ namespace MyWebsite.Services.Interfaces
         Task UpdateProductService(int id, SanPhamRequest product);
         Task DeleteProductService(int id);
         Task<List<SanPhamDTO>> GetProductByIdDanhMuc(int id);
+        Task<List<HinhAnhDTO>> GetHinhAnhByIdSp(int id);
     }
 }

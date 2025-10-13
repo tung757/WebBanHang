@@ -27,13 +27,13 @@ namespace MyWebsite.Repositories.Implements
 
         public async Task<Hinhanhsp> GetHinhAnhById(int id)
         {
-            var kq=await _context.Hinhanhsps.SingleOrDefaultAsync(ha=>ha.IdImg==id);
+            var kq=await _context.Hinhanhsps.FirstOrDefaultAsync(ha=>ha.IdImg==id);
             return kq;
         }
 
         public async Task<List<Hinhanhsp>> GetHinhAnhByIdSp(int id)
         {
-            var kq=await _context.Hinhanhsps.Where(ha=>ha.IdImg==id).ToListAsync();
+            var kq=await _context.Hinhanhsps.Where(ha=>ha.MaSp==id).ToListAsync();
             return kq;
         }
 

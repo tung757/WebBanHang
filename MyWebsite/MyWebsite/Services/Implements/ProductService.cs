@@ -10,10 +10,13 @@ namespace MyWebsite.Services.Implements
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IHinhAnhRepository _hinhAnhRepository;
+        public ProductService(IProductRepository productRepository, IHinhAnhRepository hinhAnhRepository)
         {
             _productRepository = productRepository;
+            _hinhAnhRepository = hinhAnhRepository;
         }
+        
         public async Task<List<SanPhamDTO>> Getallproduct()
         {
             var result = await _productRepository.GetallProduct();
@@ -152,6 +155,18 @@ namespace MyWebsite.Services.Implements
                 }).ToList()
             }).ToList();
             return result;
+        }
+
+        public async Task<List<HinhAnhDTO>> GetHinhAnhByIdSp(int id)
+        {
+            var result = await _hinhAnhRepository.GetHinhAnhByIdSp(id);
+            var kq = result.Select(ha => new HinhAnhDTO
+            {
+                IdImg = ha.IdImg,
+                ImgAnh = ha.ImgAnh,
+                MaSp = ha.MaSp
+            }).ToList();
+            return kq;
         }
     }
 }
